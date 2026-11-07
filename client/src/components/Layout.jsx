@@ -152,12 +152,18 @@ export default function Layout() {
               </div>
 
               <div className="meta-block">
-                <h4>Availability</h4>
-                <p>{profile.availability}</p>
+                <h4>Direct Phone / WhatsApp</h4>
+                <p>
+                  <a href={`tel:${profile.phone}`}>{profile.phoneDisplay || profile.phone}</a>
+                  {" · "}
+                  <a href={profile.whatsapp} target="_blank" rel="noreferrer" style={{ color: "#10b981" }}>
+                    WhatsApp ↗
+                  </a>
+                </p>
               </div>
 
               <div className="meta-block">
-                <h4>Direct Inquiries</h4>
+                <h4>Email</h4>
                 <p>
                   <a href={`mailto:${profile.email}`}>{profile.email}</a>
                 </p>
@@ -166,11 +172,17 @@ export default function Layout() {
               <div className="meta-block">
                 <h4>Connect</h4>
                 <div className="offcanvas-socials">
+                  <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                    LinkedIn ↗
+                  </a>
                   <a href={profile.github} target="_blank" rel="noreferrer">
                     GitHub ↗
                   </a>
-                  <a href={profile.linkedin} target="_blank" rel="noreferrer">
-                    LinkedIn ↗
+                  <a href={profile.whatsapp} target="_blank" rel="noreferrer">
+                    WhatsApp ↗
+                  </a>
+                  <a href={profile.previousPortfolio} target="_blank" rel="noreferrer">
+                    Design Portfolio (Figma) ↗
                   </a>
                   <a href={profile.leetcode} target="_blank" rel="noreferrer">
                     LeetCode ↗
@@ -252,13 +264,20 @@ export default function Layout() {
                 <a href={`mailto:${profile.email}`}>{profile.email}</a>
               </li>
               <li>
-                <span className="label">Location</span>
-                <span>{profile.location}</span>
+                <span className="label">Phone / WhatsApp</span>
+                <a href={`tel:${profile.phone}`}>{profile.phoneDisplay || profile.phone}</a>
+                <a href={profile.whatsapp} target="_blank" rel="noreferrer" style={{ color: "#10b981", fontSize: "0.82rem", marginTop: "2px" }}>
+                  Chat on WhatsApp ↗
+                </a>
               </li>
               <li>
-                <span className="label">Previous Work</span>
+                <span className="label">Location</span>
+                <span>{profile.location} (UTC+5)</span>
+              </li>
+              <li>
+                <span className="label">Design System</span>
                 <a href={profile.previousPortfolio} target="_blank" rel="noreferrer">
-                  enmfarooq85.vercel.app ↗
+                  Figma Prototype ↗
                 </a>
               </li>
             </ul>
@@ -268,13 +287,18 @@ export default function Layout() {
             <h4 className="footer-col-title">Social & Profiles</h4>
             <ul className="footer-social-list">
               <li>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                  LinkedIn <span className="arrow">↗</span>
+                </a>
+              </li>
+              <li>
                 <a href={profile.github} target="_blank" rel="noreferrer">
                   GitHub <span className="arrow">↗</span>
                 </a>
               </li>
               <li>
-                <a href={profile.linkedin} target="_blank" rel="noreferrer">
-                  LinkedIn <span className="arrow">↗</span>
+                <a href={profile.whatsapp} target="_blank" rel="noreferrer">
+                  WhatsApp Direct <span className="arrow">↗</span>
                 </a>
               </li>
               <li>

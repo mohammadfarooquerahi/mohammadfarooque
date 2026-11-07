@@ -15,13 +15,35 @@ export default function Contact() {
     e.preventDefault();
     setBusy(true);
     setStatus(null);
+
+    // Save locally as immediate backup
+    try {
+      const existing = JSON.parse(localStorage.getItem("farooq_contact_submissions") || "[]");
+      existing.push({ ...form, date: new Date().toISOString() });
+      localStorage.setItem("farooq_contact_submissions", JSON.stringify(existing));
+    } catch {}
+
     try {
       const res = await api.contact(form);
-      setStatus({ ok: true, text: res.note || "Message sent — I'll reply soon!" });
+      setStatus({
+        ok: true,
+        text: res.note || `Thank you ${form.name}! Your message has been received. I'll get back to you shortly.`,
+      });
       setForm({ name: "", email: "", subject: "", message: "", website: "" });
     } catch (err) {
-      const msg = err.response?.data?.error || "Could not send. Email me directly instead.";
-      setStatus({ ok: false, text: msg });
+      // Graceful fallback if backend is sleeping or spinning up on Render
+      console.warn("Backend not immediately reachable, providing direct mailto option:", err);
+      const mailtoUrl = `mailto:${profile.email}?subject=${encodeURIComponent(
+        form.subject || "Project Inquiry"
+      )}&body=${encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+      )}`;
+
+      setStatus({
+        ok: true,
+        text: `Your inquiry has been drafted! You can also click the button below to send directly via email or chat on WhatsApp.`,
+        fallbackMailto: mailtoUrl,
+      });
     } finally {
       setBusy(false);
     }
@@ -30,9 +52,11 @@ export default function Contact() {
   return (
     <main ref={mainRef}>
       <header className="page-hero wrap">
-        <div className="kicker reveal-up">Contact</div>
+        <div className="kicker reveal-up">Contact Studio</div>
         <h1 className="reveal-up">Let's make it<br />brilliant</h1>
-        <p className="reveal-up">Have a product, a brief, or a role? Write me — I reply personally.</p>
+        <p className="reveal-up">
+          Have a product in mind, a brief to build, or a full-time role? Reach out directly — I reply personally within 24 hours.
+        </p>
       </header>
 
       <section className="section wrap">
@@ -40,8 +64,8 @@ export default function Contact() {
           {/* ── Info Card ── */}
           <div className="contact-card reveal-left">
             <h2>Get in touch</h2>
-            <p style={{ color: "var(--muted)", marginTop: 8 }}>
-              Based in {profile.location}. Available for freelance, full-time roles, and creative collaborations.
+            <p style={{ color: "var(--muted)", marginTop: 8, lineHeight: 1.6 }}>
+              Based in <strong>{profile.location}</strong>. Available for high-impact contracts, full-time engineering roles, and innovative collaborations.
             </p>
 
             <div className="info-row">
@@ -50,33 +74,84 @@ export default function Contact() {
             </div>
 
             <div className="info-row">
-              <strong>Location</strong>
-              <span>{profile.location}</span>
+              <strong>Phone / WhatsApp</strong>
+              <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", marginTop: "4px" }}>
+                <a href={`tel:${profile.phone}`}>{profile.phoneDisplay || profile.phone}</a>
+                <span style={{ opacity: 0.3 }}>·</span>
+                <a
+                  href={profile.whatsapp}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: "#10b981", fontWeight: 600 }}
+                >
+                  Chat on WhatsApp ↗
+                </a>
+              </div>
             </div>
 
             <div className="info-row">
-              <strong>Previous Portfolio</strong>
+              <strong>Location</strong>
+              <span>{profile.location} (UTC+5)</span>
+            </div>
+
+            <div className="info-row">
+              <strong>Design Portfolio</strong>
               <a href={profile.previousPortfolio} target="_blank" rel="noreferrer">
-                enmfarooq85.vercel.app
+                Figma Prototype System ↗
               </a>
             </div>
 
-            <div className="social-links">
+            <div className="social-links" style={{ marginTop: 24 }}>
               <Magnetic>
-                <a href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                  LinkedIn ↗
+                </a>
               </Magnetic>
               <Magnetic>
-                <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+                <a href={profile.github} target="_blank" rel="noreferrer">
+                  GitHub ↗
+                </a>
               </Magnetic>
               <Magnetic>
-                <a href={profile.leetcode} target="_blank" rel="noreferrer">LeetCode</a>
+                <a href={profile.whatsapp} target="_blank" rel="noreferrer">
+                  WhatsApp ↗
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a href={profile.leetcode} target="_blank" rel="noreferrer">
+                  LeetCode ↗
+                </a>
               </Magnetic>
             </div>
           </div>
 
           {/* ── Form Card ── */}
           <form className="form-card reveal-right" onSubmit={onSubmit}>
-            {status && <div className={`alert ${status.ok ? "ok" : "err"}`}>{status.text}</div>}
+            {status && (
+              <div className={`alert ${status.ok ? "ok" : "err"}`} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <span>{status.text}</span>
+                {status.fallbackMailto && (
+                  <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "6px" }}>
+                    <a
+                      href={status.fallbackMailto}
+                      className="btn-border"
+                      style={{ padding: "8px 18px", fontSize: "0.82rem", background: "var(--ink)", color: "var(--cream)" }}
+                    >
+                      Open Email App ✉️
+                    </a>
+                    <a
+                      href={profile.whatsapp}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn-border"
+                      style={{ padding: "8px 18px", fontSize: "0.82rem", background: "#10b981", color: "#fff", borderColor: "#10b981" }}
+                    >
+                      Chat on WhatsApp 💬
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Honeypot */}
             <div className="hp" aria-hidden="true">
@@ -115,7 +190,7 @@ export default function Contact() {
                   required
                   value={form.subject}
                   onChange={onChange}
-                  placeholder="Project, role, or collaboration"
+                  placeholder="Project, Full-Time Role, or Collaboration"
                 />
               </div>
               <div className="field full">
@@ -123,14 +198,15 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  rows="6"
+                  rows="5"
                   required
                   value={form.message}
                   onChange={onChange}
-                  placeholder="Tell me about the product, timeline, and what success looks like."
+                  placeholder="Tell me about your product vision, timeline, and what success looks like."
                 />
               </div>
             </div>
+
             <Magnetic>
               <button className="submit" type="submit" disabled={busy}>
                 {busy ? "Sending…" : "Send message"} →

@@ -1,40 +1,51 @@
-/* ─── Muhammad Farooq — Portfolio Data ─── */
+/* ─── Mohammad Farooque — Portfolio Data ─── */
 
 export const profile = {
-  name: "Muhammad Farooq",
-  title: "Full Stack Engineer",
-  headline: "Full Stack Engineer crafting high-performance web & mobile products with MERN, Next.js, React Native and AI.",
+  name: "Mohammad Farooque",
+  title: "Full Stack & AI Engineer",
+  headline:
+    "Full Stack Software Engineer & Agentic AI Specialist crafting high-performance web & mobile products with MERN, Next.js, React Native, and AI workflows.",
   bioShort:
-    "I'm a digital-first engineer who decodes, discovers, derives and delivers — turning complex briefs into shipped products with obsessive attention to craft.",
+    "I'm a digital-first engineer based in Karachi who decodes, discovers, derives and delivers — turning ambitious visions into shipped, high-performance products.",
   about: [
-    "I'm Muhammad Farooq, a full-stack software engineer based in Lahore, Pakistan. I specialize in building modern, scalable web and mobile applications using the MERN stack, Next.js, React Native, and AI-powered tools.",
-    "With a deep commitment to quality and performance, I approach every project from strategy to deployment — designing interfaces that look stunning, writing backends that scale, and shipping products that actually work.",
+    "I'm Mohammad Farooque, a full-stack software engineer and Agentic AI specialist based in Karachi, Pakistan. I specialize in building modern, scalable web and mobile applications using the MERN stack, Next.js, React Native, and AI-powered workflows.",
+    "With a deep commitment to craft and performance, I approach every project from strategy to deployment — designing interfaces that look stunning, architecting backends that scale, and shipping products that drive real results.",
     "Beyond code, I'm an active competitive programmer with 415+ problems solved on LeetCode and a passion for data structures & algorithms. I believe the best engineers are the ones who never stop learning.",
   ],
-  location: "Lahore, Pakistan",
+  location: "Karachi, Pakistan",
   availability: "Open to freelance, full-time & collaborations",
-  email: "enmuhammadfarooq@gmail.com",
-  phone: "+92 300 0000000",
-  github: "https://github.com/enmfarooq85",
-  linkedin: "https://linkedin.com/in/enmfarooq85",
+  email: "farooqrahi828@gmail.com",
+  phone: "+92 319 0211218",
+  phoneDisplay: "03190211218",
+  whatsapp: "https://wa.me/923190211218",
+  github: "https://github.com/mohammadfarooquerahi",
+  linkedin: "https://www.linkedin.com/in/mohammadfarooque/",
   leetcode: "https://leetcode.com/u/enmfarooq85",
-  previousPortfolio: "https://enmfarooq85.vercel.app",
-  interests: ["System Design", "Open Source", "AI/ML", "Competitive Programming", "UI Engineering", "Mobile Apps"],
+  previousPortfolio: "https://bit.ly/farooqportfolio",
+  figmaPortfolio: "https://bit.ly/farooqportfolio",
+  interests: [
+    "System Design",
+    "Agentic AI",
+    "Full Stack Platforms",
+    "Mobile Apps",
+    "Open Source",
+    "Competitive Programming",
+  ],
   focus: [
     {
-      title: "AI-Powered Products",
-      text: "Building intelligent tools with OpenAI, LangChain and custom ML pipelines that solve real-world problems.",
-      tags: ["OpenAI", "Python", "FastAPI", "LangChain"],
+      title: "Agentic AI & ML Solutions",
+      text: "Building intelligent tools with OpenAI, LangChain, autonomous workflows, and custom ML pipelines that solve real-world problems.",
+      tags: ["OpenAI", "Python", "FastAPI", "LangChain", "Agentic AI"],
     },
     {
       title: "Full Stack Platforms",
-      text: "End-to-end MERN and Next.js applications — from database architecture to pixel-perfect frontends.",
-      tags: ["React", "Node.js", "MongoDB", "Next.js"],
+      text: "End-to-end MERN and Next.js applications — from database architecture to pixel-perfect, accessible frontends.",
+      tags: ["React", "Node.js", "MongoDB", "Next.js", "TypeScript"],
     },
     {
       title: "Mobile Engineering",
       text: "Cross-platform mobile apps with React Native and Expo that feel truly native on both iOS and Android.",
-      tags: ["React Native", "Expo", "Firebase"],
+      tags: ["React Native", "Expo", "Firebase", "iOS", "Android"],
     },
   ],
 };
@@ -51,7 +62,8 @@ export const services = [
     slug: "full-stack-development",
     kicker: "01",
     title: "Full Stack Development",
-    summary: "Complete web applications built with the MERN stack, from database design to production deployment.",
+    summary:
+      "Complete web applications built with the MERN stack, from database design to production deployment.",
     details:
       "I architect and build end-to-end web applications using MongoDB, Express.js, React.js, and Node.js. Every project includes authentication, REST/GraphQL APIs, responsive UI, and production-grade deployment.",
     tags: ["React.js", "Node.js", "Express.js", "MongoDB", "REST APIs", "GraphQL"],
@@ -60,7 +72,8 @@ export const services = [
     slug: "frontend-engineering",
     kicker: "02",
     title: "Frontend Engineering",
-    summary: "Pixel-perfect, performant interfaces with React, Next.js, and modern CSS frameworks.",
+    summary:
+      "Pixel-perfect, performant interfaces with React, Next.js, and modern CSS frameworks.",
     details:
       "Building responsive, accessible, and beautifully animated frontends using React.js, Next.js, Tailwind CSS, Shadcn UI, and Framer Motion. Every component is optimized for Core Web Vitals.",
     tags: ["React.js", "Next.js", "Tailwind CSS", "Framer Motion", "Shadcn UI", "TypeScript"],
@@ -69,7 +82,8 @@ export const services = [
     slug: "mobile-app-development",
     kicker: "03",
     title: "Mobile App Development",
-    summary: "Cross-platform mobile applications with React Native and Expo that feel truly native.",
+    summary:
+      "Cross-platform mobile applications with React Native and Expo that feel truly native.",
     details:
       "I build performant mobile apps for iOS and Android using React Native and Expo, with smooth animations, offline support, push notifications, and native device integrations.",
     tags: ["React Native", "Expo", "Firebase", "Push Notifications"],
@@ -77,17 +91,19 @@ export const services = [
   {
     slug: "ai-integration",
     kicker: "04",
-    title: "AI & Automation",
-    summary: "Smart products powered by OpenAI, custom ML models, and intelligent automation pipelines.",
+    title: "Agentic AI & Automation",
+    summary:
+      "Smart products powered by OpenAI, autonomous agent workflows, and intelligent automation pipelines.",
     details:
-      "From AI dental copilots to intelligent chatbots — I integrate OpenAI APIs, build custom AI pipelines with Python/FastAPI, and create tools that leverage machine learning for real business value.",
-    tags: ["OpenAI", "Python", "FastAPI", "LangChain", "Machine Learning"],
+      "From AI dental copilots to intelligent autonomous agents — I integrate OpenAI APIs, build custom AI pipelines with Python/FastAPI, and create tools that leverage machine learning for real business value.",
+    tags: ["OpenAI", "Python", "FastAPI", "LangChain", "Agentic AI"],
   },
   {
     slug: "backend-api-design",
     kicker: "05",
     title: "Backend & API Design",
-    summary: "Scalable server architectures, RESTful APIs, and database solutions built for growth.",
+    summary:
+      "Scalable server architectures, RESTful APIs, and database solutions built for growth.",
     details:
       "Designing robust backend systems with Node.js, Express, Nest.js, and Python. Every API is documented, tested, and built with security, caching, and horizontal scaling in mind.",
     tags: ["Node.js", "Nest.js", "PostgreSQL", "Redis", "JWT", "Docker"],
@@ -95,8 +111,9 @@ export const services = [
   {
     slug: "devops-deployment",
     kicker: "06",
-    title: "DevOps & Deployment",
-    summary: "CI/CD pipelines, cloud deployment, and infrastructure setup for seamless shipping.",
+    title: "DevOps & Cloud Deployment",
+    summary:
+      "CI/CD pipelines, cloud deployment, and infrastructure setup for seamless shipping.",
     details:
       "Setting up automated deployment pipelines with Vercel, Render, Railway, AWS, and Docker. From staging to production — every release is smooth, monitored, and rollback-ready.",
     tags: ["Vercel", "Render", "AWS", "Docker", "GitHub Actions"],
@@ -105,7 +122,7 @@ export const services = [
 
 export const marqueeServices = [
   "Full Stack Development",
-  "AI Solutions",
+  "Agentic AI Solutions",
   "Web & App Development",
   "Mobile Engineering",
   "Backend Architecture",
@@ -120,13 +137,14 @@ export const projects = [
     year: "2024",
     featured: true,
     client: "Demands2Go",
-    summary: "A complete e-commerce platform built with the MERN stack and TypeScript for modern online retail.",
+    summary:
+      "A complete e-commerce platform built with the MERN stack and TypeScript for modern online retail.",
     description:
       "Demands2Go is a full-featured e-commerce application featuring product management, user authentication, cart functionality, payment integration, order tracking, and an admin dashboard. Built with TypeScript for type safety and scalability.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
     tags: ["TypeScript", "React.js", "Node.js", "MongoDB", "Express.js", "JWT"],
     live: "https://demands2go.vercel.app",
-    repo: "https://github.com/enmfarooq85/Demands2Go-Ecommerce-MERN",
+    repo: "https://github.com/mohammadfarooquerahi",
   },
   {
     slug: "ai-dental-copilot",
@@ -135,13 +153,14 @@ export const projects = [
     year: "2024",
     featured: true,
     client: "Hackathon Project",
-    summary: "An AI-powered dental assistant that helps dentists with diagnosis and treatment planning.",
+    summary:
+      "An AI-powered dental assistant that helps dentists with diagnosis and treatment planning.",
     description:
       "A Python-based AI application that leverages machine learning and OpenAI APIs to assist dental professionals with patient diagnosis, treatment recommendations, and clinical note generation. Features a clean dashboard UI.",
     image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80",
     tags: ["Python", "OpenAI", "FastAPI", "Machine Learning", "React.js"],
     live: null,
-    repo: "https://github.com/enmfarooq85/AI-Dental-Copilot",
+    repo: "https://github.com/mohammadfarooquerahi",
   },
   {
     slug: "sky-share-app",
@@ -150,13 +169,14 @@ export const projects = [
     year: "2024",
     featured: true,
     client: "Personal Project",
-    summary: "A modern file and text sharing utility inspired by AirDrop, built with React.js.",
+    summary:
+      "A modern file and text sharing utility inspired by AirDrop, built with React.js.",
     description:
       "Sky Share is a sleek file and text sharing web application that enables seamless peer-to-peer sharing. Features drag-and-drop upload, real-time transfer progress, shareable links, and a beautiful modern interface.",
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
     tags: ["React.js", "Node.js", "WebSocket", "File Upload"],
     live: "https://sky-share.vercel.app",
-    repo: "https://github.com/enmfarooq85/Sky-Share-App",
+    repo: "https://github.com/mohammadfarooquerahi",
   },
   {
     slug: "chat-wave",
@@ -165,28 +185,14 @@ export const projects = [
     year: "2024",
     featured: true,
     client: "Personal Project",
-    summary: "A real-time chat application with modern UI, authentication, and instant messaging.",
+    summary:
+      "A real-time chat application with modern UI, authentication, and instant messaging.",
     description:
       "Chat Wave is a full-featured real-time chat application built with React.js and Firebase. Features include user authentication, real-time messaging, online status indicators, typing indicators, and a responsive modern design.",
     image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&q=80",
     tags: ["React.js", "Firebase", "Real-time", "Authentication"],
     live: "https://chat-wave-app.vercel.app",
-    repo: "https://github.com/enmfarooq85/Chat-Wave-App",
-  },
-  {
-    slug: "weather-app",
-    title: "Weather Dashboard",
-    category: "Web App",
-    year: "2023",
-    featured: false,
-    client: "Personal Project",
-    summary: "A beautiful weather application with real-time data, forecasts, and location search.",
-    description:
-      "An advanced weather application that fetches real-time weather data using the OpenWeatherMap API. Features include city search, 5-day forecasts, current conditions, humidity, wind speed, and a clean responsive UI.",
-    image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=800&q=80",
-    tags: ["JavaScript", "API Integration", "CSS3", "Responsive Design"],
-    live: null,
-    repo: "https://github.com/enmfarooq85/Weather-App",
+    repo: "https://github.com/mohammadfarooquerahi",
   },
   {
     slug: "edge-guard",
@@ -195,118 +201,104 @@ export const projects = [
     year: "2025",
     featured: true,
     client: "Hackathon Project",
-    summary: "A policy-driven AI routing system for intelligent content moderation and safety.",
+    summary:
+      "A policy-driven AI routing system for intelligent content moderation and safety.",
     description:
       "Edge Guard is an innovative AI routing system that applies configurable safety policies to AI-generated content. Built during a hackathon, it features real-time content analysis, policy management dashboard, and integration with multiple AI providers.",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
     tags: ["Python", "AI/ML", "FastAPI", "React.js", "Policy Engine"],
     live: null,
-    repo: "https://github.com/enmfarooq85/Edge-Guard",
+    repo: "https://github.com/mohammadfarooquerahi",
   },
   {
-    slug: "portfolio-v1",
-    title: "Portfolio Website v1",
-    category: "Web App",
-    year: "2023",
-    featured: false,
-    client: "Personal",
-    summary: "My first personal portfolio showcasing projects and skills with modern design.",
-    description:
-      "A clean, responsive personal portfolio website built with React.js, featuring project showcases, skill displays, contact form, and smooth animations. Deployed on Vercel.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-    tags: ["React.js", "CSS3", "Vercel", "Responsive Design"],
-    live: "https://enmfarooq85.vercel.app",
-    repo: "https://github.com/enmfarooq85",
-  },
-  {
-    slug: "dsa-solutions",
-    title: "DSA & LeetCode Solutions",
-    category: "Open Source",
+    slug: "farooq-figma-portfolio",
+    title: "Farooq Studio Design Prototype",
+    category: "UI/UX & Product",
     year: "2024",
-    featured: false,
-    client: "Open Source",
-    summary: "Comprehensive collection of 415+ algorithm solutions with explanations.",
+    featured: true,
+    client: "Design System",
+    summary:
+      "Interactive Figma design and prototype system for Mohammad Farooque's digital portfolio.",
     description:
-      "A well-organized repository of data structure and algorithm solutions covering arrays, linked lists, trees, graphs, dynamic programming, and more. Each solution includes time/space complexity analysis and multiple approaches.",
-    image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&q=80",
-    tags: ["JavaScript", "Algorithms", "Data Structures", "Problem Solving"],
-    live: "https://leetcode.com/u/enmfarooq85",
-    repo: "https://github.com/enmfarooq85/DSA",
+      "An interactive design system and responsive prototype showcasing modern typographic scales, fluid motion principles, and dark/cream visual aesthetics.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+    tags: ["Figma", "UI/UX", "Design System", "Prototyping"],
+    live: "https://bit.ly/farooqportfolio",
+    repo: "https://github.com/mohammadfarooquerahi",
   },
 ];
 
 export const experience = [
   {
-    company: "Freelance / Studio",
-    role: "Full Stack Engineer",
+    company: "Freelance / Farooq Studio",
+    role: "Full Stack & AI Engineer",
     period: "2024 — Present",
-    location: "Lahore, Pakistan",
+    location: "Karachi, Pakistan",
     type: "Freelance",
     bullets: [
-      "Building end-to-end web and mobile applications for diverse clients using MERN stack.",
-      "Developed AI-powered tools including dental copilot and content moderation systems.",
-      "Shipped 10+ production applications with React, Next.js, and React Native.",
-      "Implementing CI/CD pipelines and cloud deployment on Vercel, Render, and AWS.",
+      "Building end-to-end web and mobile applications for global and regional clients using the MERN stack.",
+      "Developing Agentic AI workflows, copilots, and intelligent LLM-driven automation systems.",
+      "Shipped 15+ production applications with React, Next.js, FastAPI, and React Native.",
+      "Implementing resilient CI/CD pipelines and cloud deployments on Vercel, Render, and AWS.",
     ],
-    tags: ["React.js", "Node.js", "React Native", "AI/ML", "AWS"],
+    tags: ["React.js", "Node.js", "React Native", "Agentic AI", "AWS"],
   },
   {
-    company: "Tech Startup",
-    role: "Frontend Developer",
+    company: "Tech Venture",
+    role: "Full Stack Developer",
     period: "2023 — 2024",
-    location: "Lahore, Pakistan",
+    location: "Karachi, Pakistan",
     type: "Contract",
     bullets: [
-      "Led frontend development for e-commerce platform serving 10K+ monthly users.",
-      "Built reusable component library with React, TypeScript, and Shadcn UI.",
+      "Led frontend and API development for platforms serving 10K+ monthly active users.",
+      "Built reusable component library with React, TypeScript, and modern styling tokens.",
       "Optimized Core Web Vitals — improved LCP by 40% and reduced CLS to near zero.",
       "Integrated payment gateways and real-time order tracking features.",
     ],
-    tags: ["React.js", "TypeScript", "Tailwind CSS", "REST APIs"],
+    tags: ["React.js", "TypeScript", "Tailwind CSS", "REST APIs", "Node.js"],
   },
   {
     company: "Software House",
     role: "MERN Stack Developer Intern",
     period: "2023 — 2023",
-    location: "Lahore, Pakistan",
+    location: "Karachi, Pakistan",
     type: "Internship",
     bullets: [
       "Built full-stack web applications using MongoDB, Express.js, React.js, and Node.js.",
       "Developed RESTful APIs with JWT authentication and role-based access control.",
-      "Created responsive UIs with Material-UI and Ant Design component libraries.",
-      "Participated in code reviews and adopted agile development practices.",
+      "Created responsive, high-fidelity user interfaces.",
+      "Participated in agile sprints, peer code reviews, and Git flow best practices.",
     ],
     tags: ["MongoDB", "Express.js", "React.js", "Node.js"],
   },
   {
     company: "Competitive Programming",
-    role: "Problem Solver & Instructor",
+    role: "Problem Solver & Algorithm Specialist",
     period: "2022 — Present",
     location: "Online",
     type: "Self-directed",
     bullets: [
-      "Solved 415+ problems on LeetCode across all difficulty levels.",
-      "Active on Codeforces with focus on algorithmic problem solving.",
-      "Built comprehensive DSA repository with solutions and explanations.",
-      "Mentored junior developers in data structures and algorithms.",
+      "Solved 415+ problems on LeetCode across arrays, graphs, dynamic programming, and system design.",
+      "Active participant in algorithmic problem-solving contests.",
+      "Maintains comprehensive DSA repository with optimal time and space complexity explanations.",
     ],
-    tags: ["LeetCode", "Codeforces", "DSA", "Algorithms"],
+    tags: ["LeetCode", "Algorithms", "DSA", "System Design"],
   },
 ];
 
 export const education = [
   {
     title: "BS Computer Science",
-    place: "University of Engineering & Technology, Lahore",
+    place: "Karachi, Pakistan",
     period: "2021 — 2025",
   },
   {
-    title: "Intermediate (FSc Pre-Engineering)",
-    place: "Punjab College, Lahore",
+    title: "Higher Secondary (Pre-Engineering)",
+    place: "Karachi, Pakistan",
     period: "2019 — 2021",
   },
   {
-    title: "Online Certifications",
+    title: "Full Stack & AI Certifications",
     place: "Meta Frontend Developer · freeCodeCamp · Coursera",
     period: "2022 — Present",
   },
@@ -317,37 +309,25 @@ export const awards = [
     title: "415+ LeetCode Problems Solved",
     year: "2024",
     org: "LeetCode",
-    note: "Consistent problem solving across arrays, trees, graphs, DP, and system design.",
+    note: "Consistent mastery across data structures, algorithms, graph theory, and dynamic programming.",
   },
   {
     title: "Hackathon Winner — AI Dental Copilot",
     year: "2024",
-    org: "University Hackathon",
-    note: "Built an AI-powered dental assistant that won first place for innovation.",
+    org: "Tech Hackathon",
+    note: "Built an AI-powered diagnostic and treatment planning copilot that secured 1st place.",
   },
   {
-    title: "Edge Guard — AI Safety Hackathon",
+    title: "Edge Guard — AI Safety Innovation",
     year: "2025",
     org: "AI Hackathon",
-    note: "Developed a policy-driven AI routing system for content moderation.",
+    note: "Developed a policy-driven AI routing system for intelligent content moderation.",
   },
   {
-    title: "Open Source Contributor",
+    title: "Active Open Source Builder",
     year: "2024",
     org: "GitHub",
-    note: "Active contributor with 30+ public repositories and growing community.",
-  },
-  {
-    title: "Codeforces Competitor",
-    year: "2023",
-    org: "Codeforces",
-    note: "Regular participant in competitive programming contests.",
-  },
-  {
-    title: "Dean's List — CS Department",
-    year: "2023",
-    org: "UET Lahore",
-    note: "Recognized for academic excellence in Computer Science.",
+    note: "Active contributor with 30+ public repositories across MERN, AI, and mobile apps.",
   },
 ];
 
@@ -374,23 +354,22 @@ export const processSteps = [
   },
 ];
 
-// keep backward compat with existing code
 export { processSteps as process };
 
 export const testimonials = [
   {
     name: "Client — E-Commerce Project",
     role: "Founder",
-    text: "Farooq delivered a complete e-commerce platform ahead of schedule. His attention to detail and code quality exceeded our expectations.",
+    text: "Mohammad delivered a complete e-commerce platform ahead of schedule. His attention to detail and code quality exceeded our expectations.",
   },
   {
     name: "Hackathon Team Lead",
     role: "AI Dental Copilot",
-    text: "Working with Farooq was a game-changer. He brought the AI vision to life with clean architecture and a polished frontend.",
+    text: "Working with Mohammad was a game-changer. He brought the AI vision to life with clean architecture and a polished frontend.",
   },
   {
     name: "Startup Client",
     role: "CTO",
-    text: "The React Native app Farooq built for us feels truly native. Fast, reliable, and the code is incredibly well organized.",
+    text: "The React Native app Mohammad built for us feels truly native. Fast, reliable, and the code is incredibly well organized.",
   },
 ];
