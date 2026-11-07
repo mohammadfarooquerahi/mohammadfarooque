@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: farooq-studio-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: FRONTEND_URL
+        sync: false
+      - key: MONGO_URI
+        sync: false
