@@ -26,13 +26,14 @@ export default function Home() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-      tl.fromTo(".hero-sub", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 1.5 })
-        .fromTo(".hero-title", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, "-=0.6")
+      tl.fromTo(".hero-badge", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, delay: 0.3 })
+        .fromTo(".hero-sub", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, "-=0.5")
+        .fromTo(".hero-title", { y: 70, opacity: 0, scale: 0.96 }, { y: 0, opacity: 1, scale: 1, duration: 1.2 }, "-=0.6")
         .fromTo(".hero-row", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.6")
         .fromTo(
-          ".float-card",
-          { y: 60, opacity: 0, scale: 0.95 },
-          { y: 0, opacity: 1, scale: 1, duration: 1, stagger: 0.2, ease: "power3.out" },
+          ".hero-card",
+          { y: 50, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 1, stagger: 0.18, ease: "power3.out" },
           "-=0.4"
         );
     }, heroRef);
@@ -41,52 +42,64 @@ export default function Home() {
 
   const profile = data?.profile;
   const stats = data?.stats || [];
-  const imgs = (work.length ? work : []).slice(0, 6);
+  const showcaseProjects = work.length ? work.slice(0, 3) : [];
 
   return (
     <main ref={(el) => { heroRef.current = el; if (mainRef.current !== el) mainRef.current = el; }}>
       {/* ── Hero ── */}
       <section className="hero">
-        <div className="wrap">
+        <div className="wrap hero-header">
+          <div className="hero-badge">
+            <span className="status-indicator" />
+            <span>Full Stack Engineer &amp; AI Builder</span>
+          </div>
+
           <p className="hero-sub">
             I'm a digital-first engineer who
             <br />
-            decodes, discovers, derives and delivers
+            decodes, discovers, derives and delivers.
           </p>
+
           <h1 className="hero-title">
             <span className="accent">FAR</span>OOQ
           </h1>
+
           <div className="hero-row">
             <Magnetic>
               <Link className="btn-border" to="/work">
-                Explore my projects
+                <span>Explore my projects</span>
                 <i>→</i>
               </Link>
             </Magnetic>
             <Magnetic>
               <Link className="btn-fill" to="/contact">
-                Let's talk
+                <span>Let's talk</span>
               </Link>
             </Magnetic>
           </div>
         </div>
 
-        <div className="wrap-s hero-float">
-          <div className="float-row">
-            <div className="float-card">
-              <img src={imgs[0]?.image} alt={imgs[0]?.title || "Featured Work"} />
-            </div>
-          </div>
-          <div className="float-row right">
-            <div className="float-card sm">
-              <img src={imgs[1]?.image} alt={imgs[1]?.title || "Featured Work"} />
-            </div>
-          </div>
-          <div className="float-row">
-            <div className="float-card">
-              <img src={imgs[2]?.image} alt={imgs[2]?.title || "Featured Work"} />
-            </div>
-          </div>
+        {/* Featured Showcase Cards */}
+        <div className="wrap hero-showcase">
+          {showcaseProjects.map((item, idx) => (
+            <Link
+              to={`/work/${item.slug}`}
+              className={`hero-card card-${idx + 1}`}
+              key={item.slug || idx}
+            >
+              <div className="hero-card-img-wrap">
+                <img src={item.image} alt={item.title} loading="lazy" />
+                <span className="hero-card-badge">{item.category}</span>
+              </div>
+              <div className="hero-card-info">
+                <div>
+                  <span className="hero-card-year">{item.year}</span>
+                  <h3 className="hero-card-title">{item.title}</h3>
+                </div>
+                <span className="hero-card-arrow">↗</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -102,7 +115,7 @@ export default function Home() {
         <div className="tag-track reverse">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i}>
-              MERN <span className="dot" /> AI <span className="dot" /> Growth
+              MERN <span className="dot" /> AI <span className="dot" /> Performance
             </div>
           ))}
         </div>
@@ -114,10 +127,11 @@ export default function Home() {
           {profile?.about?.[1] ||
             "With a deep commitment to quality and performance, I approach every project from strategy to deployment — designing interfaces that look stunning, writing backends that scale, and shipping products that actually work."}
         </p>
-        <div className="reveal-up">
+        <div className="reveal-up" style={{ marginTop: 28 }}>
           <Magnetic>
             <Link className="btn-border" to="/about">
-              More about me <i>→</i>
+              <span>More about me</span>
+              <i>→</i>
             </Link>
           </Magnetic>
         </div>
@@ -144,7 +158,7 @@ export default function Home() {
       <section className="section wrap" ref={countersRef}>
         <div className="numbers">
           <div>
-            <span className="pill reveal-up">Fun facts</span>
+            <span className="pill reveal-up">Key metrics</span>
             <h2 className="reveal-up">Numbers that speak volumes</h2>
             <p className="reveal-up">
               Curious mind, competitive programmer, and builder. I turn briefs into shipped products with obsessive
@@ -178,10 +192,10 @@ export default function Home() {
         <h2 className="section-title reveal-up">Selected work</h2>
         <p className="section-sub reveal-up">Products, redesigns and hackathon builds from 2023–2025.</p>
         <div className="work-grid">
-          {work.slice(0, 6).map((p, i) => (
+          {work.slice(0, 6).map((p) => (
             <Link className="work-card reveal-up" key={p.slug} to={`/work/${p.slug}`}>
               <figure>
-                <img src={p.image} alt={p.title} />
+                <img src={p.image} alt={p.title} loading="lazy" />
                 <figcaption>
                   <small>
                     {p.year} · {p.category}
@@ -195,7 +209,8 @@ export default function Home() {
         <div style={{ textAlign: "center", marginTop: 44 }} className="reveal-up">
           <Magnetic>
             <Link className="btn-border" to="/work">
-              View all work <i>→</i>
+              <span>View all work</span>
+              <i>→</i>
             </Link>
           </Magnetic>
         </div>
