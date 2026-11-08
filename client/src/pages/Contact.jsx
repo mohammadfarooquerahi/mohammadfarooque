@@ -1,18 +1,84 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Magnetic from "../components/Magnetic.jsx";
 import { api, profile } from "../lib/api.js";
 import { useScrollReveal } from "../hooks/useAnimations.js";
+import ConfirmModal from "../components/ConfirmModal.jsx";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", website: "" });
+  const [touched, setTouched] = useState({});
   const [status, setStatus] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [autosaveTime, setAutosaveTime] = useState("");
+  const [confirmClearOpen, setConfirmClearOpen] = useState(false);
+
   const mainRef = useScrollReveal([]);
 
-  const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  // Restore draft on initial load
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("farooq_contact_draft"));
+      if (saved && (saved.name || saved.email || saved.message)) {
+        setForm(saved);
+        setAutosaveTime(saved.savedAt || "restored draft");
+      }
+    } catch {}
+  }, []);
+
+  // Autosave to localStorage on every change (debounced 800ms)
+  useEffect(() => {
+    if (!form.name && !form.email && !form.message) return;
+    const timer = setTimeout(() => {
+      const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      localStorage.setItem("farooq_contact_draft", JSON.stringify({ ...form, savedAt: now }));
+      setAutosaveTime(now);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [form]);
+
+  const onChange = (e) => {
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  };
+
+  const onBlur = (field) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
+  // Smart Validation States
+  const errors = {
+    name: !form.name.trim() ? "Name is required." : form.name.length < 2 ? "Name too short." : null,
+    email: !form.email.trim()
+      ? "Email address is required."
+      : !EMAIL_REGEX.test(form.email)
+      ? "Enter a valid email address (e.g., name@domain.com)."
+      : null,
+    subject: !form.subject.trim() ? "Subject is required." : null,
+    message:
+      !form.message.trim()
+        ? "Message is required."
+        : form.message.length < 15
+        ? "Please share a few more details (min 15 chars)."
+        : null,
+  };
+
+  const isFormValid = !errors.name && !errors.email && !errors.subject && !errors.message;
+
+  const handleClearDraft = () => {
+    setForm({ name: "", email: "", subject: "", message: "", website: "" });
+    setTouched({});
+    setAutosaveTime("");
+    localStorage.removeItem("farooq_contact_draft");
+    setConfirmClearOpen(false);
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setTouched({ name: true, email: true, subject: true, message: true });
+
+    if (!isFormValid) return;
+
     setBusy(true);
     setStatus(null);
 
@@ -30,8 +96,10 @@ export default function Contact() {
         text: res.note || `Thank you ${form.name}! Your message has been received. I'll get back to you shortly.`,
       });
       setForm({ name: "", email: "", subject: "", message: "", website: "" });
+      setTouched({});
+      setAutosaveTime("");
+      localStorage.removeItem("farooq_contact_draft");
     } catch (err) {
-      // Graceful fallback if backend is sleeping or spinning up on Render
       console.warn("Backend not immediately reachable, providing direct mailto option:", err);
       const mailtoUrl = `mailto:${profile.email}?subject=${encodeURIComponent(
         form.subject || "Project Inquiry"
@@ -41,7 +109,7 @@ export default function Contact() {
 
       setStatus({
         ok: true,
-        text: `Your inquiry has been drafted! You can also click the button below to send directly via email or chat on WhatsApp.`,
+        text: `Your inquiry has been drafted! You can also click below to open your email client or chat directly on WhatsApp.`,
         fallbackMailto: mailtoUrl,
       });
     } finally {
@@ -125,96 +193,159 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* ── Form Card ── */}
-          <form className="form-card reveal-right" onSubmit={onSubmit}>
-            {status && (
-              <div className={`alert ${status.ok ? "ok" : "err"}`} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <span>{status.text}</span>
-                {status.fallbackMailto && (
-                  <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "6px" }}>
-                    <a
-                      href={status.fallbackMailto}
-                      className="btn-border"
-                      style={{ padding: "8px 18px", fontSize: "0.82rem", background: "var(--ink)", color: "var(--cream)" }}
+          {/* ── Form Card with Autosave & Smart Validation ── */}
+          <div className="form-card-container reveal-right">
+            <form className="form-card" onSubmit={onSubmit} noValidate>
+              {/* Form Card Header with Autosave status */}
+              <div className="form-header-bar">
+                <span className="form-legend">Send a Direct Message</span>
+                {autosaveTime && (
+                  <div className="autosave-indicator">
+                    <span className="autosave-dot" />
+                    <span>Autosaved {autosaveTime}</span>
+                    <button
+                      type="button"
+                      className="clear-draft-link"
+                      onClick={() => setConfirmClearOpen(true)}
+                      title="Clear draft"
                     >
-                      Open Email App ✉️
-                    </a>
-                    <a
-                      href={profile.whatsapp}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn-border"
-                      style={{ padding: "8px 18px", fontSize: "0.82rem", background: "#10b981", color: "#fff", borderColor: "#10b981" }}
-                    >
-                      Chat on WhatsApp 💬
-                    </a>
+                      (Clear)
+                    </button>
                   </div>
                 )}
               </div>
-            )}
 
-            {/* Honeypot */}
-            <div className="hp" aria-hidden="true">
-              <input name="website" value={form.website} onChange={onChange} tabIndex={-1} />
-            </div>
+              {status && (
+                <div className={`alert ${status.ok ? "ok" : "err"}`} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <span>{status.text}</span>
+                  {status.fallbackMailto && (
+                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "6px" }}>
+                      <a
+                        href={status.fallbackMailto}
+                        className="btn-border"
+                        style={{ padding: "8px 18px", fontSize: "0.82rem", background: "var(--ink)", color: "var(--cream)" }}
+                      >
+                        Open Email App ✉️
+                      </a>
+                      <a
+                        href={profile.whatsapp}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn-border"
+                        style={{ padding: "8px 18px", fontSize: "0.82rem", background: "#10b981", color: "#fff", borderColor: "#10b981" }}
+                      >
+                        Chat on WhatsApp 💬
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
 
-            <div className="form-grid">
-              <div className="field">
-                <label htmlFor="name">Full name *</label>
-                <input
-                  id="name"
-                  name="name"
-                  required
-                  value={form.name}
-                  onChange={onChange}
-                  placeholder="Your name"
-                />
+              {/* Honeypot */}
+              <div className="hp" aria-hidden="true">
+                <input name="website" value={form.website} onChange={onChange} tabIndex={-1} />
               </div>
-              <div className="field">
-                <label htmlFor="email">Email *</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={onChange}
-                  placeholder="you@company.com"
-                />
-              </div>
-              <div className="field full">
-                <label htmlFor="subject">Subject *</label>
-                <input
-                  id="subject"
-                  name="subject"
-                  required
-                  value={form.subject}
-                  onChange={onChange}
-                  placeholder="Project, Full-Time Role, or Collaboration"
-                />
-              </div>
-              <div className="field full">
-                <label htmlFor="message">Message *</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="5"
-                  required
-                  value={form.message}
-                  onChange={onChange}
-                  placeholder="Tell me about your product vision, timeline, and what success looks like."
-                />
-              </div>
-            </div>
 
-            <Magnetic>
-              <button className="submit" type="submit" disabled={busy}>
-                {busy ? "Sending…" : "Send message"} →
-              </button>
-            </Magnetic>
-          </form>
+              <div className="form-grid">
+                {/* Name Field */}
+                <div className={`field ${touched.name && errors.name ? "has-error" : touched.name && !errors.name ? "is-valid" : ""}`}>
+                  <div className="field-label-row">
+                    <label htmlFor="name">Full name *</label>
+                    {touched.name && !errors.name && <span className="valid-mark">✓</span>}
+                  </div>
+                  <input
+                    id="name"
+                    name="name"
+                    required
+                    value={form.name}
+                    onChange={onChange}
+                    onBlur={() => onBlur("name")}
+                    placeholder="Alex Mercer"
+                  />
+                  {touched.name && errors.name && <span className="field-hint-error">{errors.name}</span>}
+                </div>
+
+                {/* Email Field */}
+                <div className={`field ${touched.email && errors.email ? "has-error" : touched.email && !errors.email ? "is-valid" : ""}`}>
+                  <div className="field-label-row">
+                    <label htmlFor="email">Email address *</label>
+                    {touched.email && !errors.email && <span className="valid-mark">✓</span>}
+                  </div>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={onChange}
+                    onBlur={() => onBlur("email")}
+                    placeholder="alex@company.com"
+                  />
+                  {touched.email && errors.email && <span className="field-hint-error">{errors.email}</span>}
+                </div>
+
+                {/* Subject Field */}
+                <div className={`field full ${touched.subject && errors.subject ? "has-error" : touched.subject && !errors.subject ? "is-valid" : ""}`}>
+                  <div className="field-label-row">
+                    <label htmlFor="subject">Subject / Scope *</label>
+                    {touched.subject && !errors.subject && <span className="valid-mark">✓</span>}
+                  </div>
+                  <input
+                    id="subject"
+                    name="subject"
+                    required
+                    value={form.subject}
+                    onChange={onChange}
+                    onBlur={() => onBlur("subject")}
+                    placeholder="SaaS Platform, AI Agent, Full-Time Role..."
+                  />
+                  {touched.subject && errors.subject && <span className="field-hint-error">{errors.subject}</span>}
+                </div>
+
+                {/* Message Field with Character Counter */}
+                <div className={`field full ${touched.message && errors.message ? "has-error" : touched.message && !errors.message ? "is-valid" : ""}`}>
+                  <div className="field-label-row">
+                    <label htmlFor="message">Project details *</label>
+                    <span className="char-counter">{form.message.length} / 1000</span>
+                  </div>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    maxLength={1000}
+                    required
+                    value={form.message}
+                    onChange={onChange}
+                    onBlur={() => onBlur("message")}
+                    placeholder="Tell me about your product vision, timeline, and what success looks like."
+                  />
+                  {touched.message && errors.message && <span className="field-hint-error">{errors.message}</span>}
+                </div>
+              </div>
+
+              <div className="form-submit-row">
+                <Magnetic>
+                  <button className="submit" type="submit" disabled={busy}>
+                    {busy ? "Sending Inquiry…" : "Send message →"}
+                  </button>
+                </Magnetic>
+                <span className="form-security-note">🔒 Spam-protected &amp; autosaved</span>
+              </div>
+            </form>
+          </div>
         </div>
       </section>
+
+      {/* Destructive Action Modal for Clearing Draft */}
+      <ConfirmModal
+        isOpen={confirmClearOpen}
+        title="Discard Contact Draft?"
+        message="Are you sure you want to clear your current message draft? All unsent text will be removed."
+        confirmLabel="Yes, Discard Draft"
+        cancelLabel="Keep Writing"
+        onConfirm={handleClearDraft}
+        onCancel={() => setConfirmClearOpen(false)}
+      />
     </main>
   );
 }

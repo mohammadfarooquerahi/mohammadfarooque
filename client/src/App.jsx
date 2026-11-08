@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { ErrorBoundary } from "./components/ErrorBoundary.jsx";
 import Layout from "./components/Layout.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
@@ -10,13 +11,15 @@ import Journey from "./pages/Journey.jsx";
 import Awards from "./pages/Awards.jsx";
 import Contact from "./pages/Contact.jsx";
 import Expertise from "./pages/Expertise.jsx";
+import Referral from "./pages/Referral.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 export default function App() {
   const location = useLocation();
   const [boot, setBoot] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setBoot(false), 1800);
+    const t = setTimeout(() => setBoot(false), 1600);
     return () => clearTimeout(t);
   }, []);
 
@@ -26,10 +29,10 @@ export default function App() {
   }, [location.pathname]);
 
   return (
-    <>
+    <ErrorBoundary>
       {boot && (
         <div className="preloader">
-          <div className="bar">Digital studio · Lahore</div>
+          <div className="bar">Digital Studio · Karachi</div>
           <h1>FAROOQ</h1>
         </div>
       )}
@@ -43,9 +46,11 @@ export default function App() {
           <Route path="/work/:slug" element={<WorkDetail />} />
           <Route path="/journey" element={<Journey />} />
           <Route path="/awards" element={<Awards />} />
+          <Route path="/referral" element={<Referral />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </>
+    </ErrorBoundary>
   );
 }

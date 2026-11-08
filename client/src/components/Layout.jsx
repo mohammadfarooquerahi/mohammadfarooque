@@ -1,25 +1,35 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Cursor from "./Cursor.jsx";
 import SmoothScroll from "./SmoothScroll.jsx";
 import Magnetic from "./Magnetic.jsx";
+import CommandPalette from "./CommandPalette.jsx";
+import KeyboardShortcutsModal from "./KeyboardShortcutsModal.jsx";
+import ProjectEstimatorModal from "./ProjectEstimatorModal.jsx";
+import MobileBottomNav from "./MobileBottomNav.jsx";
 import { profile } from "../lib/api.js";
 
 const links = [
   ["01", "Home", "/"],
   ["02", "About", "/about"],
-  ["03", "Services", "/services"],
+  ["03", "Services & Tiers", "/services"],
   ["04", "Expertise", "/expertise"],
-  ["05", "Work", "/work"],
+  ["05", "Selected Work", "/work"],
   ["06", "Journey", "/journey"],
   ["07", "Awards", "/awards"],
-  ["08", "Contact", "/contact"],
+  ["08", "Referral Program", "/referral"],
+  ["09", "Contact", "/contact"],
 ];
 
 export default function Layout() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [cmdOpen, setCmdOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [estimatorOpen, setEstimatorOpen] = useState(false);
+
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Close menu on route change
   useEffect(() => {
@@ -44,6 +54,53 @@ export default function Layout() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Global Keyboard Shortcuts Listener
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const activeTag = document.activeElement?.tagName?.toLowerCase();
+      const isInput = activeTag === "input" || activeTag === "textarea" || document.activeElement?.isContentEditable;
+
+      // Cmd+K or Ctrl+K opens Command Palette
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCmdOpen((prev) => !prev);
+        return;
+      }
+
+      // Esc closes all modals
+      if (e.key === "Escape") {
+        setCmdOpen(false);
+        setShortcutsOpen(false);
+        setEstimatorOpen(false);
+        setOpen(false);
+        return;
+      }
+
+      // Single-letter hotkeys when not typing in form inputs
+      if (!isInput && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        if (e.key === "?" || e.key === "/") {
+          e.preventDefault();
+          setShortcutsOpen((prev) => !prev);
+        } else if (e.key.toLowerCase() === "h") {
+          navigate("/");
+        } else if (e.key.toLowerCase() === "w") {
+          navigate("/work");
+        } else if (e.key.toLowerCase() === "s") {
+          navigate("/services");
+        } else if (e.key.toLowerCase() === "c") {
+          navigate("/contact");
+        } else if (e.key.toLowerCase() === "r") {
+          navigate("/referral");
+        } else if (e.key.toLowerCase() === "t") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [navigate]);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -64,6 +121,36 @@ export default function Layout() {
           </Magnetic>
 
           <div className="header-actions">
+            {/* Command Palette Trigger */}
+            <button
+              className="header-cmd-pill"
+              onClick={() => setCmdOpen(true)}
+              aria-label="Open command palette (⌘K)"
+              title="Spotlight Search (Cmd+K)"
+            >
+              <span className="cmd-symbol">⌘K</span>
+              <span className="cmd-label">Search</span>
+            </button>
+
+            {/* Keyboard Shortcuts Trigger */}
+            <button
+              className="header-shortcuts-pill"
+              onClick={() => setShortcutsOpen(true)}
+              title="Keyboard Shortcuts (?)"
+              aria-label="View keyboard shortcuts"
+            >
+              ⌨️
+            </button>
+
+            {/* Scope Estimator Pill */}
+            <button
+              className="header-estimator-pill"
+              onClick={() => setEstimatorOpen(true)}
+              title="Estimate your project scope"
+            >
+              ⚡ Scope Estimator
+            </button>
+
             <span className="header-status">
               <span className="status-indicator" />
               Available for work
@@ -92,6 +179,60 @@ export default function Layout() {
           </div>
         </div>
       </header>
+
+      {/* ── Persistent Floating Desktop Dock (Feature 4) ── */}
+      <aside className="persistent-dock" aria-label="Persistent quick navigation dock">
+        <button
+          className="dock-item"
+          onClick={() => setCmdOpen(true)}
+          title="Command Palette (⌘K)"
+          aria-label="Command search"
+        >
+          ⌘K
+        </button>
+        <button
+          className="dock-item"
+          onClick={() => setEstimatorOpen(true)}
+          title="Project Scope Estimator"
+          aria-label="Estimate scope"
+        >
+          ⚡
+        </button>
+        <button
+          className="dock-item"
+          onClick={() => navigate("/work")}
+          title="Selected Work"
+          aria-label="View projects"
+        >
+          💼
+        </button>
+        <a
+          href={profile.whatsapp}
+          target="_blank"
+          rel="noreferrer"
+          className="dock-item dock-whatsapp"
+          title="Direct WhatsApp (+92 319 0211218)"
+          aria-label="Chat on WhatsApp"
+        >
+          💬
+        </a>
+        <button
+          className="dock-item"
+          onClick={() => setShortcutsOpen(true)}
+          title="Keyboard Hotkeys (?)"
+          aria-label="Keyboard shortcuts"
+        >
+          ⌨️
+        </button>
+        <button
+          className="dock-item dock-top"
+          onClick={scrollToTop}
+          title="Back to Top"
+          aria-label="Scroll to top"
+        >
+          ↑
+        </button>
+      </aside>
 
       {/* ── Offcanvas Menu (Strictly hidden when closed) ── */}
       <div
@@ -127,7 +268,7 @@ export default function Layout() {
             </nav>
 
             <p className="offcanvas-copy">
-              © {new Date().getFullYear()} Muhammad Farooq. All rights reserved.
+              © {new Date().getFullYear()} Mohammad Farooque. All rights reserved.
             </p>
           </div>
 
@@ -195,7 +336,7 @@ export default function Layout() {
       </div>
 
       {/* ── Page Content ── */}
-      <Outlet />
+      <Outlet context={{ onOpenEstimator: () => setEstimatorOpen(true), onOpenCommandPalette: () => setCmdOpen(true) }} />
 
       {/* ── Studio Footer ── */}
       <footer className="studio-footer">
@@ -247,11 +388,12 @@ export default function Layout() {
             <ul className="footer-links">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About Studio</Link></li>
-              <li><Link to="/services">Services & Craft</Link></li>
+              <li><Link to="/services">Services & Tiers</Link></li>
               <li><Link to="/expertise">Expertise</Link></li>
               <li><Link to="/work">Selected Work</Link></li>
               <li><Link to="/journey">Journey</Link></li>
               <li><Link to="/awards">Recognition</Link></li>
+              <li><Link to="/referral">Referral Program (15%)</Link></li>
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
@@ -313,7 +455,7 @@ export default function Layout() {
         {/* Footer Bottom Bar */}
         <div className="footer-bottom wrap">
           <div className="footer-copy">
-            © {new Date().getFullYear()} Muhammad Farooq. All rights reserved.
+            © {new Date().getFullYear()} Mohammad Farooque. All rights reserved.
           </div>
           <div className="footer-credit">
             Designed & Engineered with React, GSAP, Node.js & Lenis
@@ -323,6 +465,21 @@ export default function Layout() {
           </button>
         </div>
       </footer>
+
+      {/* ── Mobile Persistent Bottom Navigation Bar (Feature 18) ── */}
+      <MobileBottomNav
+        onOpenCommandPalette={() => setCmdOpen(true)}
+        onOpenEstimator={() => setEstimatorOpen(true)}
+      />
+
+      {/* ── Command Palette (Feature 3) ── */}
+      <CommandPalette isOpen={cmdOpen} onClose={() => setCmdOpen(false)} />
+
+      {/* ── Keyboard Shortcuts Modal (Feature 13) ── */}
+      <KeyboardShortcutsModal isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+
+      {/* ── Project Scope Estimator Modal (Feature 15) ── */}
+      <ProjectEstimatorModal isOpen={estimatorOpen} onClose={() => setEstimatorOpen(false)} />
     </>
   );
 }
