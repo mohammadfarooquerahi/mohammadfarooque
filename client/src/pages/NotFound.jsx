@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import Magnetic from "../components/Magnetic.jsx";
 
-export default function NotFound({ onOpenCommandPalette }) {
+export default function NotFound({ onOpenCommandPalette: propCmd }) {
+  const outletCtx = useOutletContext() || {};
+  const onOpenCommandPalette = propCmd || outletCtx.onOpenCommandPalette;
   return (
     <main className="not-found-screen">
       <div className="wrap not-found-content">

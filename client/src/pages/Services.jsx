@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { api } from "../lib/api.js";
 import { useScrollReveal, useStaggerReveal } from "../hooks/useAnimations.js";
 import Magnetic from "../components/Magnetic.jsx";
@@ -61,7 +61,9 @@ const ENGAGEMENT_TIERS = [
   },
 ];
 
-export default function Services({ onOpenEstimator }) {
+export default function Services({ onOpenEstimator: propEstimator }) {
+  const outletCtx = useOutletContext() || {};
+  const onOpenEstimator = propEstimator || outletCtx.onOpenEstimator;
   const [pack, setPack] = useState(null);
   const mainRef = useScrollReveal([pack]);
   const processRef = useStaggerReveal(".stagger-item", [pack]);

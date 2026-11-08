@@ -20,7 +20,7 @@ export default function Referral() {
   }, [projectValue, commissionRate]);
 
   const handleCopyLink = () => {
-    const link = `https://mohammadfarooque.vercel.app/?ref=${encodeURIComponent(partnerCode)}`;
+    const link = `https://www.mohammadfarooque.online/?ref=${encodeURIComponent(partnerCode)}`;
     navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -153,7 +153,7 @@ export default function Referral() {
             </div>
 
             <div className="ref-share-box">
-              <code>https://mohammadfarooque.vercel.app/?ref={partnerCode}</code>
+              <code>https://www.mohammadfarooque.online/?ref={partnerCode}</code>
               <button className="btn-copy" onClick={handleCopyLink}>
                 {copied ? "Copied! ✓" : "Copy Link 📋"}
               </button>

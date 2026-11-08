@@ -2459,6 +2459,38 @@ ul { list-style: none; }
   justify-content: center;
 }
 
+/* ── Scope Estimator Banner ── */
+.estimator-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: linear-gradient(135deg, rgba(235, 77, 39, 0.12), rgba(20, 20, 20, 0.9));
+  border: 1px solid rgba(235, 77, 39, 0.35);
+  border-radius: 20px;
+  padding: 32px 40px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+.estimator-banner-content h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 6px;
+}
+.estimator-banner-content p {
+  font-size: 0.92rem;
+  color: rgba(247, 241, 230, 0.7);
+}
+@media (max-width: 768px) {
+  .estimator-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+  }
+}
+
 /* ── Referral & Affiliate Calculator (Feature 16) ── */
 .referral-calc-card {
   background: #141414;
